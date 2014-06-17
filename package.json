@@ -1,0 +1,19 @@
+{
+  "name": "maxcompressor",
+  "version": "0.0.0",
+  "description": "Jpeg 0 compression for any image",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "."
+  },
+  "author": "Vincent Bruijn",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.8.0",
+    "gulp-jshint": "^1.6.3"
+  }
+}
