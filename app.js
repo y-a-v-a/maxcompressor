@@ -4,6 +4,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var favicon = require('static-favicon');
+var busboy = require('connect-busboy');
 
 var routes = require('./routes/index');
 
@@ -13,7 +14,11 @@ app.set('view engine', 'ejs');
 
 app.use(favicon());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.raw({limit: '1024kb'}));
+app.use(busboy({ immediate: true, limits: {
+    fileSize: 10 * 1024 * 1024
+  } }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
