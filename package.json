@@ -13,6 +13,7 @@
   "author": "Vincent Bruijn <vebruijn@gmail.com> (http://www.vincentbruijn.nl)",
   "license": "CC-BY-SA-3.0",
   "devDependencies": {
+    "express": "3.4.8",
     "gulp": "^3.8.0",
     "gulp-jshint": "^1.6.3",
     "node-gd": "^0.2.3"

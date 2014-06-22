@@ -1,16 +1,21 @@
-var gd = require('node-gd');
+var express = require('express');
+var app = express();
 
-var image = './image.jpg';
+var compressor = require('./compressor/compressor');
 
-gd.openJpeg(image, function(err, img) {
-    if (err) {
-        throw err;
-    }
-    
-    return img.saveJpeg('./image1.jpg', 0, function(err) {
-        if (err) {
-            throw err;
-        }
-        return console.log('saved!');
+
+app.get('/', function(req, res) {
+    var binary = true;
+    compressor.compress('./image.jpg', binary, function(data) {
+        res.set({
+            'Content-Type': 'image/jpg',
+            'Content-Length': data.length
+        })
+
+        res.send(data);
     });
 });
+
+app.listen(3000);
+
+
