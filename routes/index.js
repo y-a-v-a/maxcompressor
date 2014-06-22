@@ -2,12 +2,12 @@ var express = require('express');
 var router = express.Router();
 
 var compressor = require('../compressor/compressor');
-/* GET home page. */
-// router.get('/', function(req, res) {
-//   res.render('index', { title: 'Express' });
-// });
 
 router.get('/', function(req, res) {
+    res.render('index', { title: 'Maxcompressor' });
+});
+
+router.get('/zero.jpg', function(req, res) {
     var binary = true;
     compressor.compress('./public/images/image.jpg', binary, function(data) {
         res.set({
