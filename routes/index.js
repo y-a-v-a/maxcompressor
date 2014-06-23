@@ -12,7 +12,7 @@ router.get('/zero.jpg', function(req, res) {
     var binary = true;
     compressor.compress('./public/images/image.jpg', binary, function(data) {
         res.set({
-            'Content-Type': 'image/jpg',
+            'Content-Type': 'image/jpeg',
             'Content-Length': data.length
         })
 
@@ -26,23 +26,35 @@ router.post('/', function(req, res) {
     }
     req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
         var buffer;
-        var converter = new stream.Writable();
+        var converter = new stream.Writable({ highWaterMark: 65536 });
         converter.data = [];
-        converter._write = function (chunk) {
-          this.data.push(chunk);
+        converter._write = function (chunk, encoding, callback) {
+            var curr = this.data.push(chunk);
+            if (curr !== this.data.length) {
+                callback(new Error('Error pushing buffer to stack'));
+            } else {
+                // calling the callback when having success appears to be required!
+                callback(null);
+            }
         };
-        
-        file.pipe(converter);
-        file.on('end', function() {
-          buffer = Buffer.concat(converter.data);
-          compressor.compressBuffer(buffer, function(err, img) {
-              res.set({
-                  'Content-Type': 'image/jpg',
-                  'Content-Length': img.length
-              })
 
-              res.send(img);
-          });
+        file.on('data', function(chunk) {
+            var success = converter.write(chunk, '7bit', function(err) {
+                if (err) {
+                    throw err;
+                }
+            });
+        });
+        
+        file.on('end', function() {
+            buffer = Buffer.concat(converter.data);
+            compressor.compressBuffer(buffer, function(err, img) {
+                res.set({
+                    'Content-Type': 'image/jpeg',
+                    'Content-Length': img.length
+                });
+                res.send(img);
+            });
         });
     });
 });

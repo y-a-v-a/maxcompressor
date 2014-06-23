@@ -13,12 +13,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(favicon());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true}));
-app.use(bodyParser.raw({limit: '1024kb'}));
-app.use(busboy({ immediate: true, limits: {
-    fileSize: 10 * 1024 * 1024
-  } }));
+app.use(busboy({
+    immediate: true,
+    limits: {
+        fileSize: 10 * 1024 * 1024
+    }
+}));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
