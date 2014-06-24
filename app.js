@@ -1,8 +1,8 @@
 var path = require('path');
-
 var express = require('express');
+
 var app = express();
-var bodyParser = require('body-parser');
+
 var favicon = require('static-favicon');
 var busboy = require('connect-busboy');
 

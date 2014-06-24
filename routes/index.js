@@ -7,13 +7,15 @@ var compressor = require('../compressor/compressor');
 function getConverter() {
     var converter = new stream.Writable({ highWaterMark: 65536 }); // 64kb
     converter.data = [];
-    converter._write = function (chunk, encoding, callback) {
+    converter._write = function (chunk, encoding, cb) {
         var curr = this.data.push(chunk);
         if (curr !== this.data.length) {
-            callback(new Error('Error pushing buffer to stack'));
+            return cb(new Error('Error pushing buffer to stack'));
         } else {
             // calling the callback when having success appears to be required!
-            callback(null);
+            // Node.js doc:
+            // Call the callback using the standard callback(error) pattern to signal that the write completed successfully or with an error.
+            cb(null);
         }
     };
     return converter;
@@ -42,6 +44,7 @@ router.post('/', function(req, res) {
 
     function doSend(image) {
         if (image !== undefined) {
+            console.log('Sending image to browser.');
             res.set({
                 'Content-Type': 'image/jpeg',
                 'Content-Length': image.length
@@ -67,6 +70,7 @@ router.post('/', function(req, res) {
 
         file.on('end', function() {
             buffer = Buffer.concat(converter.data);
+            console.log('Done reading file ' + filename + ', will compress now...');
             compressor.compressBuffer(buffer, function(err, img) {
                 doSend(img);
             });
@@ -89,6 +93,7 @@ router.post('/', function(req, res) {
             });
 
             res.on("end", function() {
+                console.log('Done retrieving ' + imageUrl + ', will compress now...');
                 buffer = Buffer.concat(converter.data);
                 compressor.compressBuffer(buffer, function(err, img) {
                     if (err) {
