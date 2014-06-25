@@ -2,18 +2,32 @@
 <html>
   <head>
     <title><%= title %></title>
+    <meta charset="UTF-8" />
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <img src="/zero.jpg" alt="">
-    <form method="post" action="/" enctype="multipart/form-data">
-        <input type="file" name="image" accept="image/jpeg">
-        <input type="submit" value="Submit upload">
-    </form>
-    <form method="post" action="/" enctype="multipart/form-data">
-        <input type="text" name="url" placeholder="Paste URL">
-        <input type="submit" value="Submit URL">
-    </form>
+      <header>
+          <h1><%= title %></h1>
+      </header>
+      <section>
+          <p>Welcome to <%= title %></p>
+          <img src="/zero.jpg" alt="">
+          <form method="post" action="/" enctype="multipart/form-data">
+              <fieldset>
+                  <legend>Upload form</legend>
+                  File upload: <input type="file" name="image" accept="image/jpeg">
+                  <input type="submit" value="Submit upload">
+              </fieldset>
+          </form>
+          <form method="post" action="/" enctype="multipart/form-data">
+              <fieldset>
+                  <legend>Upload form</legend>
+                  URL: <input type="text" name="url" placeholder="Paste URL">
+                  <input type="submit" value="Submit URL">
+              </fieldset>
+          </form>
+      </section>
+      <footer>
+          Done by y_a_v_a in html5 and php - view results @ <a href="http://y-a-v-a.tumblr.com/">http://y-a-v-a.tumblr.com/</a>
+      </footer>
   </body>
 </html>

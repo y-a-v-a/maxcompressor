@@ -1,5 +1,6 @@
 var path = require('path');
 var express = require('express');
+var logger = require('morgan');
 
 var app = express();
 
@@ -12,6 +13,7 @@ var routes = require('./routes/index');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(logger('dev'));
 app.use(favicon());
 app.use(busboy({
     immediate: true,

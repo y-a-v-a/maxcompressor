@@ -20,6 +20,7 @@
     "gulp": "^3.8.0",
     "gulp-jshint": "^1.6.3",
     "node-gd": "^0.2.3",
-    "static-favicon": "~1.0.0"
+    "static-favicon": "~1.0.0",
+    "morgan": "~1.0.0"
   }
 }
