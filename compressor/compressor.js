@@ -1,33 +1,33 @@
 var gd = require('node-gd');
-
 var fs = require('fs');
+var crypto = require('crypto');
 
-exports.compress = function() {
+var md5 = function(str) {
+  return crypto
+    .createHash('md5')
+    .update(str)
+    .digest('hex');
+};
+
+exports.compress = function(image, callback) {
     'use strict';
-    var image, asData, callback, i = 0, j = arguments.length, data, args = new Array();
-    for (;i < j; i++) {
-        args.push(arguments[i]);
-    }
-
-    image = args[0];
-    asData = args[1] === true;
-    callback = args[j - 1];
-
     gd.openJpeg(image, function(err, img) {
         if (err) {
             throw err;
         }
-        if (asData && typeof callback === 'function') {
-            data = new Buffer(img.jpegPtr(0), 'binary');
-            
-            callback.call(null, data);
-        } else {
-            var newName = image.replace(/\.jpg$/, '.zero.jpg');
-            img.saveJpeg('./' + newName, 0);
-            if (typeof callback === 'function') {
-                callback.call(null, newName);
+        var newName = './cache/' + md5(image) + '.jpg';
+
+        fs.exists(newName, function(exists) {
+            if (!exists) {
+                img.saveJpeg(newName, 0, function() {
+                    if (typeof callback === 'function') {
+                        callback(null, newName);
+                    }
+                });
+            } else {
+                callback(null, newName);
             }
-        }
+        });
     });
 };
 
@@ -35,7 +35,11 @@ exports.compressBuffer = function(buffer, callback) {
     'use strict';
     var img = gd.createFromJpegPtr(buffer);
     var data = new Buffer(img.jpegPtr(0), 'binary');
-    if (typeof callback === 'function') {
-        callback.call(null, null, data);
-    }
+    var newName = './cache/' + md5(data.toString('ascii')) + '.jpg';
+    fs.exists(newName, function(exists) {
+        if (!exists) {
+            img.saveJpeg(newName, 0);
+        }
+        callback(null, newName);
+    });
 };

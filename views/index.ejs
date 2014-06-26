@@ -10,18 +10,18 @@
       </header>
       <section>
           <p>Welcome to <%= title %></p>
-          <img src="/zero.jpg" alt="">
+          <img src="/images/image.zero.jpg" alt="">
           <form method="post" action="/" enctype="multipart/form-data">
               <fieldset>
                   <legend>Upload form</legend>
-                  File upload: <input type="file" name="image" accept="image/jpeg">
+                  File upload: <input type="file" name="image" accept="image/jpeg"><br>
                   <input type="submit" value="Submit upload">
               </fieldset>
           </form>
           <form method="post" action="/" enctype="multipart/form-data">
               <fieldset>
                   <legend>Upload form</legend>
-                  URL: <input type="text" name="url" placeholder="Paste URL">
+                  URL: <input type="text" name="url" autofocus="autofocus" style="width: 500px;" placeholder="paste URL here..."><br>
                   <input type="submit" value="Submit URL">
               </fieldset>
           </form>

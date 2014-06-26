@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
+
 var stream = require('stream');
+var config = require('./../config.js');
 
 var compressor = require('../compressor/compressor');
 
@@ -25,35 +27,9 @@ router.get('/', function(req, res) {
     res.render('index', { title: 'Maxcompressor' });
 });
 
-router.get('/zero.jpg', function(req, res) {
-    var binary = true;
-    compressor.compress('./public/images/image.jpg', binary, function(data) {
-        res.set({
-            'Content-Type': 'image/jpeg',
-            'Content-Length': data.length
-        })
-
-        res.send(data);
-    });
-});
-
 router.post('/', function(req, res) {
     if (!req.body || !req.body.title) {
         new Error('No data provided.');
-    }
-
-    function doSend(image) {
-        if (image !== undefined) {
-            console.log('Sending image to browser.');
-            res.set({
-                'Content-Type': 'image/jpeg',
-                'Content-Length': image.length
-            });
-            res.send(image);
-        } else {
-            res.send('Image is undefined');
-        }
-        res.end();
     }
 
     req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
@@ -70,9 +46,9 @@ router.post('/', function(req, res) {
 
         file.on('end', function() {
             buffer = Buffer.concat(converter.data);
-            console.log('Done reading file ' + filename + ', will compress now...');
+            console.log('Done reading file ' + filename);
             compressor.compressBuffer(buffer, function(err, img) {
-                doSend(img);
+                res.sendfile(img);
             });
         });
     });
@@ -85,21 +61,22 @@ router.post('/', function(req, res) {
         var buffer;
         var http = require("http");
 
-        http.get(imageUrl, function(res) {
+        http.get(imageUrl, function(response) {
             var converter = getConverter();
 
-            res.on('data', function (chunk) {
+            response.on('data', function (chunk) {
                 converter.write(chunk);
             });
 
-            res.on("end", function() {
-                console.log('Done retrieving ' + imageUrl + ', will compress now...');
+            response.on("end", function() {
+                console.log('Done retrieving ' + imageUrl);
                 buffer = Buffer.concat(converter.data);
                 compressor.compressBuffer(buffer, function(err, img) {
                     if (err) {
                         throw err;
                     }
-                    doSend(img);
+                    res.sendfile(img);
+                   // postToTumblr(img);
                 });
             });
         }).on('error', function(e) {
@@ -109,3 +86,24 @@ router.post('/', function(req, res) {
 });
 
 module.exports = router;
+
+function postToTumblr(image, tags) {
+    var tumblr = require('tumblr.js');
+    
+    var client = tumblr.createClient({
+      consumer_key:    config.consumer_key,
+      consumer_secret: config.consumer_secret,
+      token:           config.token,
+      token_secret:    config.token_secret
+    });
+    
+    var options = {
+        data: image,
+        date: '' + ~~(Date.now() / 1000),
+        state: 'draft'
+    }
+    
+    client.photo('y-a-v-a', options, function(a, b) {
+        console.log(b['id']);
+    });
+}
