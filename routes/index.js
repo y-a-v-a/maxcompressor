@@ -24,7 +24,10 @@ function getConverter() {
 }
 
 router.get('/', function(req, res) {
-    res.render('index', { title: 'Maxcompressor' });
+    res.render('index', {
+        title: 'Maxcompressor',
+        image: '/images/image.zero.jpg'
+    });
 });
 
 router.post('/', function(req, res) {
@@ -48,7 +51,11 @@ router.post('/', function(req, res) {
             buffer = Buffer.concat(converter.data);
             console.log('Done reading file ' + filename);
             compressor.compressBuffer(buffer, function(err, img) {
-                res.sendfile(img);
+                //res.sendfile(img);
+                res.render('index', {
+                    title: 'Maxcompressor',
+                    image: img.replace('./cache', '')
+                });
             });
         });
     });
@@ -75,8 +82,12 @@ router.post('/', function(req, res) {
                     if (err) {
                         throw err;
                     }
-                    res.sendfile(img);
+                    // res.sendfile(img);
                    // postToTumblr(img);
+                   res.render('index', {
+                       title: 'Maxcompressor',
+                       image: img.replace('./cache', '')
+                   });
                 });
             });
         }).on('error', function(e) {

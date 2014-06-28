@@ -3,28 +3,49 @@
   <head>
     <title><%= title %></title>
     <meta charset="UTF-8" />
+    <style>
+    section  {
+        display: flex;
+    }
+    section > div {
+        flex-grow: 0;
+        flex-basis: 420px;
+    }
+    section > div + div {
+        flex-grow: 1;
+        flex-basis: auto;
+        text-align: center;
+    }
+    img {
+        max-width: 600px;
+    }
+    </style>
   </head>
   <body>
       <header>
           <h1><%= title %></h1>
       </header>
       <section>
-          <p>Welcome to <%= title %></p>
-          <img src="/images/image.zero.jpg" alt="">
-          <form method="post" action="/" enctype="multipart/form-data">
-              <fieldset>
-                  <legend>Upload form</legend>
-                  File upload: <input type="file" name="image" accept="image/jpeg"><br>
-                  <input type="submit" value="Submit upload">
-              </fieldset>
-          </form>
-          <form method="post" action="/" enctype="multipart/form-data">
-              <fieldset>
-                  <legend>Upload form</legend>
-                  URL: <input type="text" name="url" autofocus="autofocus" style="width: 500px;" placeholder="paste URL here..."><br>
-                  <input type="submit" value="Submit URL">
-              </fieldset>
-          </form>
+          <div>
+              <p>Welcome to <%= title %></p>
+              <form method="post" action="/" enctype="multipart/form-data">
+                  <fieldset>
+                      <legend>Upload form</legend>
+                      File upload: <input type="file" name="image" accept="image/jpeg"><br>
+                      <input type="submit" value="Submit upload">
+                  </fieldset>
+              </form>
+              <form method="post" action="/" enctype="multipart/form-data">
+                  <fieldset>
+                      <legend>Upload form</legend>
+                      URL: <input type="text" name="url" autofocus="autofocus" style="width: 300px;" placeholder="paste URL here..."><br>
+                      <input type="submit" value="Submit URL">
+                  </fieldset>
+              </form>
+          </div>
+          <div>
+              <img src="<%= image %>" alt="">
+          </div>
       </section>
       <footer>
           Done by y_a_v_a in html5 and php - view results @ <a href="http://y-a-v-a.tumblr.com/">http://y-a-v-a.tumblr.com/</a>
