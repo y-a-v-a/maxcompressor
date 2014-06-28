@@ -1,9 +1,10 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: Helvetica, Arial, sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: #474747;
     font-size: 1em;
+    text-rendering: optimizeLegibility;
 }
 p {
     line-height: 1.5;
@@ -16,6 +17,10 @@ a:visited {
 }
 a:hover {
     text-decoration: none;
+}
+h1, h2, h3 {
+    font-weight: 100;
+    color: #777;
 }
 code {
     font-size: 0.9em;
@@ -30,16 +35,19 @@ header {
     background-position: 50% 50%;
     height: 300px;
     text-align: center;
-    color: #fff;
     line-height: 300px;
 }
 header h1 {
     font-size: 4em;
     margin: 0;
     text-shadow: 0 0 6px #aaa;
+    color: #fff;
 }
 section {
     text-align: center;
+}
+section h2 {
+    font-size: 2.2em;
 }
 section form {
     display: inline-block;
@@ -54,7 +62,7 @@ fieldset {
 }
 section p {
     max-width: 500px;
-    margin: 0 auto;
+    margin: 0 auto 30px auto;
 }
 section img {
     width: 100%;
@@ -74,6 +82,9 @@ aside {
     max-width: 500px;
     margin: 0 auto;
 }
+aside h3 {
+    font-size: 1.8em;
+}
 ol {
     list-style: none;
     padding: 0;
@@ -92,6 +103,7 @@ li img {
 }
 input[type="button"],input[type="submit"],input[type="file"] {
     font-size: 1em;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 footer {
     text-align: center;

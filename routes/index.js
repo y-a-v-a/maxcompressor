@@ -112,9 +112,9 @@ function postToTumblr(image, tags) {
         data: image,
         date: '' + ~~(Date.now() / 1000),
         state: 'draft'
-    }
+    };
     
     client.photo('y-a-v-a', options, function(a, b) {
-        console.log(b['id']);
+        console.log(b.id);
     });
 }

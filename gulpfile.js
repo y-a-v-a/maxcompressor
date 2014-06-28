@@ -4,16 +4,18 @@ var gulp = require('gulp');
 // Include Our Plugins
 var jshint = require('gulp-jshint');
 
+var paths = ['*.js', 'compressor/*.js', 'routes/*.js'];
+
 // Lint Task
 gulp.task('lint', function() {
-    return gulp.src('*.js')
+    return gulp.src(paths)
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
 
 // Watch Files For Changes
 gulp.task('watch', function() {
-    gulp.watch('*.js', ['lint']);
+    gulp.watch(paths, ['lint']);
 });
 
 // Default Task
