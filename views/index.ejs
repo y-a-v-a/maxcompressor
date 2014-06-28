@@ -3,31 +3,16 @@
   <head>
     <title><%= title %></title>
     <meta charset="UTF-8" />
-    <style>
-    section  {
-        display: flex;
-    }
-    section > div {
-        flex-grow: 0;
-        flex-basis: 420px;
-    }
-    section > div + div {
-        flex-grow: 1;
-        flex-basis: auto;
-        text-align: center;
-    }
-    img {
-        max-width: 600px;
-    }
-    </style>
+    <link rel="stylesheet" href="/stylesheets/style.css">
   </head>
   <body>
-      <header>
+      <header style="background-image: url('<%= image %>')">
           <h1><%= title %></h1>
       </header>
       <section>
-          <div>
-              <p>Welcome to <%= title %></p>
+          <div id="forms">
+              <h2>Welcome to <%= title %></h2>
+              <p>Max Kompressor is your friend in kompressing jpeg images to the max. Using libgd this node.js application kompresses your <code>image/jpeg</code> to level <code>0</code>, i.e. zero, nil, naught.</p>
               <form method="post" action="/" enctype="multipart/form-data">
                   <fieldset>
                       <legend>Upload form</legend>
@@ -43,12 +28,22 @@
                   </fieldset>
               </form>
           </div>
-          <div>
+          <div class="result">
               <img src="<%= image %>" alt="">
           </div>
       </section>
+      <aside>
+          <div id="note">
+              <h3>Max kompresses art</h3>
+              <p>Max' help is used by <a href="http://www.y-a-v-a.org" target="_blank">y-a-v-a.org</a> as a means to reinterpret the history of painting: how much of the aura of a depiction of a painting is left after a mathematical interference that lossyly kompresses these images to its technical maximum? Decide for yourself...</p>
+          </div>
+          <div id="gallery">
+              <script src="http://y-a-v-a.tumblr.com/js"></script>
+          </div>
+      </aside>
       <footer>
-          Done by y_a_v_a in html5 and php - view results @ <a href="http://y-a-v-a.tumblr.com/">http://y-a-v-a.tumblr.com/</a>
+          <p>Done by <a href="http://www.y-a-v-a.org" target="_blank">y-a-v-a.org</a> in html5, css3, javascript and node.js</p>
+          <p>view results @ <a href="http://y-a-v-a.tumblr.com/" target="_blank">http://y-a-v-a.tumblr.com/</a></p>
       </footer>
   </body>
 </html>
