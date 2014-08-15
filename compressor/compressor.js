@@ -34,6 +34,10 @@ exports.compress = function(image, callback) {
 exports.compressBuffer = function(buffer, callback) {
     'use strict';
     var img = gd.createFromJpegPtr(buffer);
+    if (img === null) {
+        callback(new Error('No image!'), '');
+        return false;
+    }
     var data = new Buffer(img.jpegPtr(0), 'binary');
     var newName = './cache/' + md5(data.toString('ascii')) + '.jpg';
     fs.exists(newName, function(exists) {

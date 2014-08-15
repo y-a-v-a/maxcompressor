@@ -34,6 +34,7 @@ router.post('/', function(req, res) {
     if (!req.body || !req.body.title) {
         new Error('No data provided.');
     }
+    var hasData = false;
 
     req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
         if (filename.length === 0) {
@@ -50,8 +51,8 @@ router.post('/', function(req, res) {
         file.on('end', function() {
             buffer = Buffer.concat(converter.data);
             console.log('Done reading file ' + filename);
+            hasData = true;
             compressor.compressBuffer(buffer, function(err, img) {
-                //res.sendfile(img);
                 res.render('index', {
                     title: 'Max Kompressor',
                     image: img.replace('./cache', '')
@@ -67,6 +68,7 @@ router.post('/', function(req, res) {
         var imageUrl = val.trim();
         var buffer;
         var http = require("http");
+        hasData = true;
 
         http.get(imageUrl, function(response) {
             var converter = getConverter();
@@ -78,11 +80,12 @@ router.post('/', function(req, res) {
             response.on("end", function() {
                 console.log('Done retrieving ' + imageUrl);
                 buffer = Buffer.concat(converter.data);
+                
                 compressor.compressBuffer(buffer, function(err, img) {
                     if (err) {
-                        throw err;
+                        console.log(err);
+                        res.redirect('/');
                     }
-                    // res.sendfile(img);
                    // postToTumblr(img);
                    res.render('index', {
                        title: 'Max Kompressor',
@@ -92,7 +95,15 @@ router.post('/', function(req, res) {
             });
         }).on('error', function(e) {
             console.log('Error ' + e);
+            res.redirect('/');
         });
+    });
+    
+    req.busboy.on('finish', function() {
+        if (hasData === false) {
+            console.log('Empty form submission?');
+            res.redirect('/');
+        }
     });
 });
 
