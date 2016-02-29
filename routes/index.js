@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var http = require("http");
+var https = require("https");
 
 var stream = require('stream');
 var config = require('./../config.js');
@@ -16,7 +18,8 @@ function getConverter() {
         } else {
             // calling the callback when having success appears to be required!
             // Node.js doc:
-            // Call the callback using the standard callback(error) pattern to signal that the write completed successfully or with an error.
+            // Call the callback using the standard callback(error) pattern to signal
+            // that the write completed successfully or with an error.
             cb(null);
         }
     };
@@ -62,15 +65,20 @@ router.post('/', function(req, res) {
     });
 
     req.busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
+        var protocol = http;
         if (val.length === 0 || !/^http/.test(val)) {
             return;
         }
         var imageUrl = val.trim();
         var buffer;
-        var http = require("http");
+
+        if (/^https/.test(imageUrl)) {
+          protocol = https;
+        }
+
         hasData = true;
 
-        http.get(imageUrl, function(response) {
+        protocol.get(imageUrl, function(response) {
             var converter = getConverter();
 
             response.on('data', function (chunk) {
@@ -80,7 +88,7 @@ router.post('/', function(req, res) {
             response.on("end", function() {
                 console.log('Done retrieving ' + imageUrl);
                 buffer = Buffer.concat(converter.data);
-                
+
                 compressor.compressBuffer(buffer, function(err, img) {
                     if (err) {
                         console.log(err);
@@ -98,7 +106,7 @@ router.post('/', function(req, res) {
             res.redirect('/');
         });
     });
-    
+
     req.busboy.on('finish', function() {
         if (hasData === false) {
             console.log('Empty form submission?');
@@ -111,20 +119,20 @@ module.exports = router;
 
 function postToTumblr(image, tags) {
     var tumblr = require('tumblr.js');
-    
+
     var client = tumblr.createClient({
       consumer_key:    config.consumer_key,
       consumer_secret: config.consumer_secret,
       token:           config.token,
       token_secret:    config.token_secret
     });
-    
+
     var options = {
         data: image,
         date: '' + ~~(Date.now() / 1000),
         state: 'draft'
     };
-    
+
     client.photo('y-a-v-a', options, function(a, b) {
         console.log(b.id);
     });
