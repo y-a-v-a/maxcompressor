@@ -4,7 +4,7 @@ var logger = require('morgan');
 
 var app = express();
 
-var favicon = require('static-favicon');
+var favicon = require('serve-favicon');
 var busboy = require('connect-busboy');
 
 var routes = require('./routes/index');

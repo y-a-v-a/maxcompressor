@@ -13,15 +13,15 @@
   "author": "Vincent Bruijn <vebruijn@gmail.com> (http://www.vincentbruijn.nl)",
   "license": "CC-BY-SA-3.0",
   "devDependencies": {
-    "body-parser": "~1.4.3",
-    "connect-busboy": "0.0.1",
-    "ejs": "~0.8.5",
-    "express": "~4.2.0",
-    "gulp": "^3.8.0",
-    "gulp-jshint": "^1.6.3",
-    "node-gd": "^1.1.0",
-    "static-favicon": "~1.0.0",
-    "morgan": "~1.0.0",
-    "tumblr.js": "~0.0.4"
+    "body-parser": "~1.18.2",
+    "connect-busboy": "0.0.2",
+    "ejs": "2.5.7",
+    "express": "~4.16.2",
+    "gulp": "^4.0.0",
+    "gulp-jshint": "^2.1.0",
+    "node-gd": "^1.5.3",
+    "serve-favicon": "~2.4.5",
+    "morgan": "~1.9.0",
+    "tumblr.js": "~1.1.0"
   }
 }
