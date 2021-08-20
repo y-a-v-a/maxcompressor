@@ -4,7 +4,8 @@
   "description": "Jpeg 0 compression for any image",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "preinstall": "if [ -d \"./cache\" ]; then echo \"cache directory exists\"; else mkdir ./cache && chmod 777 ./cache; fi",
+    "start": "node ./app.js"
   },
   "repository": {
     "type": "git",
@@ -17,10 +18,10 @@
     "connect-busboy": "0.0.2",
     "ejs": "2.5.7",
     "express": "~4.16.2",
-    "gulp": "^4.0.0",
+    "gulp": "^3.9.1",
     "gulp-jshint": "^2.1.0",
     "morgan": "^1.9.1",
-    "node-gd": "^1.5.3",
+    "node-gd": "^1.6",
     "serve-favicon": "~2.4.5",
     "tumblr.js": "~1.1.0"
   }
