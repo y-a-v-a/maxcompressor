@@ -6,3 +6,5 @@ build:
       - npm install --unsafe-perm=true
 run:
   command: npm run start
+  network:
+    port: 8080
