@@ -2,6 +2,8 @@ version: 1.0
 runtime: nodejs12
 build:
   commands:
+    prebuild:
+      - sudo apt-get install libgd-dev pkg-config
     build:
       - npm install --unsafe-perm=true
 run:
