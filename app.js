@@ -1,11 +1,13 @@
+require('dotenv').config();
+
 var path = require('path');
 var express = require('express');
 var logger = require('morgan');
+const fileUpload = require('express-fileupload');
 
 var app = express();
 
 var favicon = require('serve-favicon');
-var busboy = require('connect-busboy');
 
 var routes = require('./routes/index');
 
@@ -16,17 +18,15 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(favicon(__dirname + '/public/favicon.ico'));
 
-app.use(
-  busboy({
-    immediate: true,
-    limits: {
-      fileSize: 10 * 1024 * 1024,
-    },
-  })
-);
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'cache')));
+
+app.use(
+  fileUpload({
+    limits: { fileSize: 500 * 1024 * 1024 },
+    // debug: true,
+  })
+);
 
 app.use('/', routes);
 
