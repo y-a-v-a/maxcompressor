@@ -9,9 +9,9 @@ const s3 = new AWS.S3({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
-var md5 = function (str) {
+function md5(str) {
   return crypto.createHash('md5').update(str).digest('hex');
-};
+}
 
 exports.compress = function (image, callback) {
   'use strict';

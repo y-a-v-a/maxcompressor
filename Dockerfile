@@ -1,12 +1,12 @@
-FROM node:14
+FROM node:16-slim
 
-WORKDIR /usr/src/app
+RUN mkdir /home/app
 
-COPY package*.json ./
+WORKDIR /home/app
 
 RUN apt-get update
 
-RUN yes | apt-get install libgd-dev
+RUN yes | apt-get install python3 build-essential libgd-dev
 
 COPY . .
 
