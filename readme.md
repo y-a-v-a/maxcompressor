@@ -16,4 +16,6 @@ $ docker build . -t vincentb/maxcompressor
 $ docker run -p 8080:8080 -d vincentb/maxcompressor
 
 $ docker exec -it 906b9880e70febeae857f818a1fdfd43446de359f59f4a54cac601f7aa0c6fe5 /bin/bash
+
+$ docker exec -u 0 -it bb4683d7be4b bash
 ```
